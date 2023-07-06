@@ -1,0 +1,35 @@
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	font-family: Helvetica;
+	display: flex;
+	flex-wrap: column wrap;
+	justify-content: center;
+	margin: 3rem;
+	margin-top: 10rem;
+}
+
+body h1 {
+	position: absolute;
+	margin-top: -50px;
+}
+
+.container {
+	display: grid;
+	grid-template-columns: repeat(5, 5rem);
+	grid-template-rows: repeat(5, 5rem);
+	background-color: cadetblue;
+	border: 2px solid black;
+}
+
+.score-board {
+	padding: 2rem;
+	text-align: center;
+}
+
+.high-score {
+	padding: 2rem;
+}
