@@ -23,4 +23,13 @@ function genGrid() {
 	}
 }
 
+function eventListener() {
+	imgEl.addEventListener('dragstart', dragStart);
+	imgEl.addEventListener('dragover', dragOver);
+	imgEl.addEventListener('dragenter', dragEnter);
+	imgEl.addEventListener('dragleave', dragLeave);
+	imgEl.addEventListener('drop', dragDrop);
+	imgEl.addEventListener('dragend', dragEnd);
+}
+
 genGrid();
