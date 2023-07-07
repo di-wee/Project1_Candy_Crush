@@ -9,7 +9,7 @@ body {
 	flex-wrap: column wrap;
 	justify-content: center;
 	margin: 3rem;
-	margin-top: 15rem;
+	margin-top: 11rem;
 	background-image: url('background/background.png');
 	background-size: cover;
 }
@@ -18,7 +18,7 @@ body {
 	width: 30%;
 	height: 20%;
 	position: absolute;
-	margin-top: -11rem;
+	margin-top: -9rem;
 }
 
 .container {
