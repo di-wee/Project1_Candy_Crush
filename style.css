@@ -9,18 +9,22 @@ body {
 	flex-wrap: column wrap;
 	justify-content: center;
 	margin: 3rem;
-	margin-top: 10rem;
+	margin-top: 15rem;
+	background-image: url('background/background.png');
+	background-size: cover;
 }
 
-body h1 {
+.logo {
+	width: 30%;
+	height: 20%;
 	position: absolute;
-	margin-top: -50px;
+	margin-top: -11rem;
 }
 
 .container {
 	display: grid;
-	grid-template-columns: repeat(5, 5rem);
-	grid-template-rows: repeat(5, 5rem);
+	grid-template-columns: repeat(5, 4rem);
+	grid-template-rows: repeat(5, 4rem);
 	background-color: cadetblue;
 	border: 2px solid black;
 }
