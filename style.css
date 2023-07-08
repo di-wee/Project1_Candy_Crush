@@ -42,12 +42,18 @@ header {
 	border-radius: 5%;
 }
 
-.high-score {
-	padding: 2rem;
+.high-score,
+.score-board {
+	margin: 1rem;
+	padding: 1rem;
 	text-align: center;
+	background-color: rgb(216, 236, 242, 0.7);
+	border: 2px solid rgb(255, 255, 255, 0.8);
+	border-radius: 10%;
 }
 
-.score-board {
-	padding: 2rem;
-	text-align: center;
+.high-score p,
+.score-board p {
+	color: black;
+	font-size: large;
 }

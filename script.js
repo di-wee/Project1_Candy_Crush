@@ -8,6 +8,7 @@ let moves = 0;
 let highScore = 0;
 let totalRows = 5;
 let totalColumn = 5;
+let grid = [];
 
 //game logic:
 
@@ -18,6 +19,7 @@ function gameInit() {
 
 function genGrid() {
 	for (let i = 1; i < totalRows + 1; i++) {
+		let rows = [];
 		for (let j = 1; j < totalColumn + 1; j++) {
 			const div = document.createElement('div');
 			div.className = 'candies';
@@ -30,8 +32,11 @@ function genGrid() {
 			imgEl.className = `index-${i}-${j}`;
 			div.appendChild(imgEl);
 			container.appendChild(div);
+			rows.push(imgEl);
 		}
+		grid.push(rows);
 	}
+	console.log(grid);
 }
 
 //event listeners
@@ -93,22 +98,38 @@ function eventListener() {
 		crushCandies();
 		function crushCandies() {
 			crush3Candies();
-			crush4Candies();
-			crush5Candies();
+			// crush4Candies();
+			// crush5Candies();
 
 			function crush3Candies() {
-				for (let r = 1; r < totalRows + 1; r++) {
-					for (let c = 1; c < totalColumn + 1; c++) {
-						const candyImg = document.querySelector('#lolli');
-						let candy1Class = `.index-${r}-${c}`;
-						let candy2Class = `.index-${r}-${c + 1}`;
-						let candy3Class = `.index-${r}-${c + 2}`;
-						let getCandy1 = document.querySelector(candy1Class).src;
-						let getCandy2 = document.querySelector(candy2Class).src;
-						let getCandy3 = document.querySelector(candy3Class).src;
-						if (getCandy1 == getCandy2 && getCandy2 == getCandy3) {
+				//horizontal
+				for (let r = 0; r < totalRows; r++) {
+					for (let c = 0; c < totalColumn - 2; c++) {
+						let candy1 = grid[r][c];
+						let candy2 = grid[r][c + 1];
+						let candy3 = grid[r][c + 2];
+						if (candy1.src == candy2.src && candy2.src == candy3.src) {
+							candy1.src = '';
+							candy2.src = '';
+							candy3.src = '';
 						}
 					}
+
+					//vertical
+					for (let r = 0; r < totalRows - 2; r++) {
+						for (let c = 0; c < totalColumn; c++) {
+							let candy1 = grid[r][c];
+							let candy2 = grid[r + 1][c];
+							let candy3 = grid[r + 2][c];
+							if (candy1.src == candy2.src && candy2.src == candy3.src) {
+								candy1.src = '';
+								candy2.src = '';
+								candy3.src = '';
+							}
+						}
+					}
+
+					//cascade mechanic
 				}
 			}
 		}
