@@ -1,3 +1,4 @@
+//defining global variables
 let container = document.querySelector('.container');
 let candies = ['Blue', 'Green', 'Orange', 'Purple', 'Red', 'Yellow'];
 let pickedCandy;
@@ -5,6 +6,8 @@ let swoppedCandy;
 let score = 0;
 let moves = 0;
 let highScore = 0;
+let totalRows = 5;
+let totalColumn = 5;
 
 //game logic:
 
@@ -14,8 +17,8 @@ function gameInit() {
 }
 
 function genGrid() {
-	for (let i = 1; i < 9; i++) {
-		for (let j = 1; j < 9; j++) {
+	for (let i = 1; i < totalRows + 1; i++) {
+		for (let j = 1; j < totalColumn + 1; j++) {
 			const div = document.createElement('div');
 			div.className = 'candies';
 			div.setAttribute('style', `grid-area:${i}/${j}/${i}/${j}`);
@@ -24,7 +27,7 @@ function genGrid() {
 			const imgEl = document.createElement('img');
 			imgEl.src = `/candies/${chosenCandy}.png`;
 			imgEl.id = 'lolli';
-			imgEl.className = `${i}-${j}`;
+			imgEl.className = `index-${i}-${j}`;
 			div.appendChild(imgEl);
 			container.appendChild(div);
 		}
@@ -62,12 +65,12 @@ function eventListener() {
 
 	function dragEnd() {
 		//only allow adjacent candies
-		const pickedArr = pickedCandy.className.split('-'); //return ['1', '1']
-		const pickedRow = Number(pickedArr[0]); // convert string into number
-		const pickedColumn = Number(pickedArr[1]);
+		const pickedArr = pickedCandy.className.split('-'); //return ['index', '1', '1']
+		const pickedRow = Number(pickedArr[1]); // convert string into number
+		const pickedColumn = Number(pickedArr[2]);
 		const swopArr = swoppedCandy.className.split('-');
-		const swoppedRow = Number(swopArr[0]);
-		const swoppedColumn = Number(swopArr[1]);
+		const swoppedRow = Number(swopArr[1]);
+		const swoppedColumn = Number(swopArr[2]);
 
 		let swopRight =
 			pickedRow === swoppedRow && swoppedColumn === pickedColumn + 1; //if picked is [1/2] swopped is [1/3]
@@ -86,8 +89,29 @@ function eventListener() {
 			swoppedCandy.src = pickedImg;
 		}
 
-		// crush4Candies
+		//crushing candies mechanic
+		crushCandies();
+		function crushCandies() {
+			crush3Candies();
+			crush4Candies();
+			crush5Candies();
+
+			function crush3Candies() {
+				for (let r = 1; r < totalRows + 1; r++) {
+					for (let c = 1; c < totalColumn + 1; c++) {
+						const candyImg = document.querySelector('#lolli');
+						let candy1Class = `.index-${r}-${c}`;
+						let candy2Class = `.index-${r}-${c + 1}`;
+						let candy3Class = `.index-${r}-${c + 2}`;
+						let getCandy1 = document.querySelector(candy1Class).src;
+						let getCandy2 = document.querySelector(candy2Class).src;
+						let getCandy3 = document.querySelector(candy3Class).src;
+						if (getCandy1 == getCandy2 && getCandy2 == getCandy3) {
+						}
+					}
+				}
+			}
+		}
 	}
 }
-
 gameInit();
