@@ -14,8 +14,8 @@ function gameInit() {
 }
 
 function genGrid() {
-	for (let i = 1; i < 7; i++) {
-		for (let j = 1; j < 7; j++) {
+	for (let i = 1; i < 9; i++) {
+		for (let j = 1; j < 9; j++) {
 			const div = document.createElement('div');
 			div.className = 'candies';
 			div.setAttribute('style', `grid-area:${i}/${j}/${i}/${j}`);
@@ -52,28 +52,31 @@ function eventListener() {
 		event.preventDefault();
 	}
 
-	function dragLeave() {}
+	function dragLeave(event) {
+		event.preventDefault();
+	}
 
 	function dragDrop(event) {
 		swoppedCandy = event.target;
 	}
 
 	function dragEnd() {
-		//checking for adjacent candies
+		//only allow adjacent candies
 		const pickedArr = pickedCandy.className.split('-'); //return ['1', '1']
-		const row = pickedArr[0];
-		const r = Number(row);
-		const column = pickedArr[1];
-		const c = Number(column);
+		const pickedRow = Number(pickedArr[0]); // convert string into number
+		const pickedColumn = Number(pickedArr[1]);
 		const swopArr = swoppedCandy.className.split('-');
-		const row2 = swopArr[0];
-		const r2 = Number(row2);
-		const column2 = swopArr[1];
-		const c2 = Number(column2);
-		let swopRight = r === r2 && c2 === c + 1; //if picked is [1/2] swopped is [1/3]
-		let swopLeft = r === r2 && c2 === c - 1; //if picked is [1/2] swop is [1/1]
-		let swopTop = r2 === r - 1 && c2 === c; //if picked is [2/1], swop is  [1/1]
-		let swopBottom = r2 === r + 1 && c2 === c; //if picked is [2/1], swop is [3/1]
+		const swoppedRow = Number(swopArr[0]);
+		const swoppedColumn = Number(swopArr[1]);
+
+		let swopRight =
+			pickedRow === swoppedRow && swoppedColumn === pickedColumn + 1; //if picked is [1/2] swopped is [1/3]
+		let swopLeft =
+			pickedRow === swoppedRow && swoppedColumn === pickedColumn - 1; //if picked is [1/2] swop is [1/1]
+		let swopTop =
+			swoppedRow === pickedRow - 1 && swoppedColumn === pickedColumn; //if picked is [2/1], swop is  [1/1]
+		let swopBottom =
+			swoppedRow === pickedRow + 1 && swoppedColumn === pickedColumn; //if picked is [2/1], swop is [3/1]
 		const checkAdjacent = swopRight || swopLeft || swopTop || swopBottom;
 		if (checkAdjacent) {
 			//swopping candies mechanic
@@ -82,6 +85,8 @@ function eventListener() {
 			pickedCandy.src = swoppedImg;
 			swoppedCandy.src = pickedImg;
 		}
+
+		// crush4Candies
 	}
 }
 
