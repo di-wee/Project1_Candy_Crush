@@ -29,7 +29,7 @@ function genGrid() {
 			const imgEl = document.createElement('img');
 			imgEl.src = `/candies/${chosenCandy}.png`;
 			imgEl.id = 'lolli';
-			imgEl.className = `index-${i}-${j}`;
+			imgEl.className = `${i}-${j}`;
 			div.appendChild(imgEl);
 			container.appendChild(div);
 			rows.push(imgEl);
@@ -71,11 +71,11 @@ function eventListener() {
 	function dragEnd() {
 		//only allow adjacent candies
 		const pickedArr = pickedCandy.className.split('-'); //return ['index', '1', '1']
-		const pickedRow = Number(pickedArr[1]); // convert string into number
-		const pickedColumn = Number(pickedArr[2]);
+		const pickedRow = Number(pickedArr[0]); // convert string into number
+		const pickedColumn = Number(pickedArr[1]);
 		const swopArr = swoppedCandy.className.split('-');
-		const swoppedRow = Number(swopArr[1]);
-		const swoppedColumn = Number(swopArr[2]);
+		const swoppedRow = Number(swopArr[0]);
+		const swoppedColumn = Number(swopArr[1]);
 
 		let swopRight =
 			pickedRow === swoppedRow && swoppedColumn === pickedColumn + 1; //if picked is [1/2] swopped is [1/3]
@@ -88,34 +88,72 @@ function eventListener() {
 		const checkAdjacent = swopRight || swopLeft || swopTop || swopBottom;
 		if (checkAdjacent) {
 			//swopping candies mechanic
-			let pickedImg = pickedCandy.src;
-			let swoppedImg = swoppedCandy.src;
-			pickedCandy.src = swoppedImg;
-			swoppedCandy.src = pickedImg;
+			function swopCandies() {
+				let pickedImg = pickedCandy.src;
+				let swoppedImg = swoppedCandy.src;
+				pickedCandy.src = swoppedImg;
+				swoppedCandy.src = pickedImg;
+			}
+			swopCandies();
+			const letValid = checkValidMove(); //if not nothing to crush then swop back candies
+			if (!letValid) {
+				swopCandies();
+			}
 		}
 
+		function checkValidMove() {
+			for (let r = 0; r < totalRows; r++) {
+				for (let c = 0; c < totalColumn - 2; c++) {
+					let candy1 = grid[r][c];
+					let candy2 = grid[r][c + 1];
+					let candy3 = grid[r][c + 2];
+					if (candy1.src == candy2.src && candy2.src == candy3.src) {
+						return true;
+					}
+				}
+			}
+
+			for (let r = 0; r < totalRows - 2; r++) {
+				for (let c = 0; c < totalColumn; c++) {
+					let candy1 = grid[r][c];
+					let candy2 = grid[r + 1][c];
+					let candy3 = grid[r + 2][c];
+					if (candy1.src == candy2.src && candy2.src == candy3.src) {
+						return true;
+					}
+				}
+			}
+			return false;
+		}
 		//crushing candies mechanic
 		crushCandies();
 		function crushCandies() {
 			crush3Candies();
+			cascadeCandies();
 			// crush4Candies();
 			// crush5Candies();
 
 			function crush3Candies() {
+				horizontalCrush();
+				verticalCrush();
 				//horizontal
-				for (let r = 0; r < totalRows; r++) {
-					for (let c = 0; c < totalColumn - 2; c++) {
-						let candy1 = grid[r][c];
-						let candy2 = grid[r][c + 1];
-						let candy3 = grid[r][c + 2];
-						if (candy1.src == candy2.src && candy2.src == candy3.src) {
-							candy1.src = '';
-							candy2.src = '';
-							candy3.src = '';
+				function horizontalCrush() {
+					for (let r = 0; r < totalRows; r++) {
+						for (let c = 0; c < totalColumn - 2; c++) {
+							let candy1 = grid[r][c];
+							let candy2 = grid[r][c + 1];
+							let candy3 = grid[r][c + 2];
+							if (candy1.src == candy2.src && candy2.src == candy3.src) {
+								candy1.src = '';
+								candy2.src = '';
+								candy3.src = '';
+							}
 						}
 					}
+				}
 
-					//vertical
+				//vertical
+				function verticalCrush() {
 					for (let r = 0; r < totalRows - 2; r++) {
 						for (let c = 0; c < totalColumn; c++) {
 							let candy1 = grid[r][c];
@@ -128,8 +166,21 @@ function eventListener() {
 							}
 						}
 					}
+				}
+			}
 
-					//cascade mechanic
+			function cascadeCandies() {
+				for (let r = totalRows - 1; r >= 0; r--) {
+					let rowInd = totalRows - 2; //3
+					for (let c = 0; c < totalColumn; c++) {
+						let candy = grid[r][c]; //4-1
+						let topCandy = grid[rowInd][c]; // 3-1
+						if (!candy.src && !topCandy.src) {
+							rowInd -= 1;
+						} else if (!candy.src && topCandy.src) {
+							topCandy.src = candy.src;
+						}
+					}
 				}
 			}
 		}
