@@ -1,6 +1,6 @@
 //defining global variables
-let container = document.querySelector('.container');
-let candies = ['Blue', 'Green', 'Orange', 'Purple', 'Red', 'Yellow'];
+const container = document.querySelector('.container');
+const candies = ['Blue', 'Green', 'Orange', 'Purple', 'Red', 'Yellow'];
 let pickedCandy;
 let swoppedCandy;
 let score = 0;
