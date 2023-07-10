@@ -72,6 +72,9 @@ function eventListener() {
 		const swopArr = swoppedCandy.className.split('-');
 		const swoppedRow = Number(swopArr[0]);
 		const swoppedColumn = Number(swopArr[1]);
+		if (!pickedCandy.src && !swoppedCandy.src) {
+			return;
+		}
 
 		function swopCandies() {
 			let pickedImg = pickedCandy.src;
@@ -105,56 +108,17 @@ function eventListener() {
 
 		function crushCandies() {
 			crush3Candies();
-			// cascadeCandies();
+			cascadeCandies();
 			// crush4Candies();
 			// crush5Candies();
-
-			function crush3Candies() {
-				//horizontalcrush
-				for (let r = 0; r < totalRows; r++) {
-					for (let c = 0; c < totalColumn - 2; c++) {
-						let candy1 = grid[r][c];
-						let candy2 = grid[r][c + 1];
-						let candy3 = grid[r][c + 2];
-						if (
-							candy1.src == candy2.src &&
-							candy2.src == candy3.src &&
-							!(candy1.src = '')
-						) {
-							candy1.src = '';
-							candy2.src = '';
-							candy3.src = '';
-						}
-					}
-				}
-
-				//verticalcrush
-				for (let r = 0; r < totalRows - 2; r++) {
-					for (let c = 0; c < totalColumn; c++) {
-						let candy1 = grid[r][c];
-						let candy2 = grid[r + 1][c];
-						let candy3 = grid[r + 2][c];
-						if (
-							candy1.src == candy2.src &&
-							candy2.src == candy3.src &&
-							!(candy1.src = '')
-						) {
-							//if candies get crushed .src = blank
-							candy1.src = '';
-							candy2.src = '';
-							candy3.src = '';
-						}
-					}
-				}
-			}
 		}
 
 		function isValid() {
 			for (let r = 0; r < totalRows; r++) {
 				for (let c = 0; c < totalColumn - 2; c++) {
-					let candy1 = grid[r][c];
-					let candy2 = grid[r][c + 1];
-					let candy3 = grid[r][c + 2];
+					const candy1 = grid[r][c];
+					const candy2 = grid[r][c + 1];
+					const candy3 = grid[r][c + 2];
 					if (
 						candy1.src == candy2.src &&
 						candy2.src == candy3.src &&
@@ -166,9 +130,9 @@ function eventListener() {
 			}
 			for (let r = 0; r < totalRows - 2; r++) {
 				for (let c = 0; c < totalColumn; c++) {
-					let candy1 = grid[r][c];
-					let candy2 = grid[r + 1][c];
-					let candy3 = grid[r + 2][c];
+					const candy1 = grid[r][c];
+					const candy2 = grid[r + 1][c];
+					const candy3 = grid[r + 2][c];
 					if (
 						candy1.src == candy2.src &&
 						candy2.src == candy3.src &&
@@ -179,6 +143,61 @@ function eventListener() {
 				}
 			}
 			return false;
+		}
+
+		function crush3Candies() {
+			//horizontalcrush
+			for (let r = 0; r < totalRows; r++) {
+				for (let c = 0; c < totalColumn - 2; c++) {
+					const candy1 = grid[r][c];
+					const candy2 = grid[r][c + 1];
+					const candy3 = grid[r][c + 2];
+					if (
+						candy1.src == candy2.src &&
+						candy2.src == candy3.src &&
+						!(candy1.src = '')
+					) {
+						candy1.src = '';
+						candy2.src = '';
+						candy3.src = '';
+					}
+				}
+			}
+
+			//verticalcrush
+			for (let r = 0; r < totalRows - 2; r++) {
+				for (let c = 0; c < totalColumn; c++) {
+					const candy1 = grid[r][c];
+					const candy2 = grid[r + 1][c];
+					const candy3 = grid[r + 2][c];
+					if (
+						candy1.src == candy2.src &&
+						candy2.src == candy3.src &&
+						!(candy1.src = '')
+					) {
+						//if candies get crushed .src = blank
+						candy1.src = '';
+						candy2.src = '';
+						candy3.src = '';
+					}
+				}
+			}
+		}
+
+		function cascadeCandies() {
+			for (let c = 0; c < totalColumn; c++) {
+				for (let r = totalRows - 1; r >= 0; r--) {
+					for (let j = totalRows - 1; j >= 0; j--) {
+						if (r === 0) break;
+						let bottomC = grid[r][c];
+						let topC = grid[r - 1][c];
+						if (!bottomC.src.includes('.png') && topC.src.includes('.png')) {
+							bottomC.src = topC.src;
+							topC.src = '';
+						}
+					}
+				}
+			}
 		}
 	}
 }
