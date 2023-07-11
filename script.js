@@ -168,6 +168,7 @@ function crushCandies() {
 	repopulateCandies();
 	scoreP.innerHTML = `Score: ${score}`;
 	moveP.innerHTML = `Moves left: ${moves}`;
+	gameOver();
 
 	// crush4Candies();
 	// crush5Candies();
@@ -239,5 +240,9 @@ function repopulateCandies() {
 }
 function gameOver() {
 	if (moves === 0) {
+		modal.style.display = 'block';
 	}
 }
+
+const modal = document.querySelector('.modal');
+const span = document.querySelector('.close');
