@@ -4,7 +4,9 @@ const candies = ['Blue', 'Green', 'Orange', 'Purple', 'Red', 'Yellow'];
 let pickedCandy;
 let swoppedCandy;
 let score = 0;
+const scoreP = document.querySelector('.score');
 let moves = 0;
+const moveP = document.querySelector('.move');
 let highScore = 0;
 let totalRows = 5;
 let totalColumn = 5;
@@ -15,7 +17,7 @@ window.addEventListener('load', function () {
 	window.setInterval(function () {
 		crushCandies();
 		repopulateCandies();
-	}, 100);
+	}, 200);
 });
 
 function gameInit() {
@@ -52,6 +54,7 @@ function eventListener() {
 	container.addEventListener('dragleave', dragLeave);
 	container.addEventListener('drop', dragDrop);
 	container.addEventListener('dragend', dragEnd);
+	crushCandies();
 
 	function dragStart(event) {
 		pickedCandy = event.target;
@@ -114,11 +117,10 @@ function eventListener() {
 		if (!checkValid) {
 			swopCandies();
 		}
-
-		crushCandies();
 	}
 }
 
+//check for valid move
 function isValid() {
 	for (let r = 0; r < totalRows; r++) {
 		for (let c = 0; c < totalColumn - 2; c++) {
@@ -143,10 +145,13 @@ function isValid() {
 	return false;
 }
 
+//crush candies mechanic
 function crushCandies() {
 	crush3Candies();
 	cascadeCandies();
 	repopulateCandies();
+	scoreP.innerHTML = `Score: ${score}`;
+
 	// crush4Candies();
 	// crush5Candies();
 }
@@ -162,6 +167,8 @@ function crush3Candies() {
 				candy1.src = '';
 				candy2.src = '';
 				candy3.src = '';
+				score += 100;
+				console.log(score);
 			}
 		}
 	}
@@ -178,10 +185,13 @@ function crush3Candies() {
 				candy1.src = '';
 				candy2.src = '';
 				candy3.src = '';
+				score += 100;
+				console.log(score);
 			}
 		}
 	}
 }
+
 function cascadeCandies() {
 	for (let c = 0; c < totalColumn; c++) {
 		for (let r = totalRows - 1; r >= 0; r--) {
