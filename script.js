@@ -256,6 +256,51 @@ function repopulateCandies() {
 		}
 	}
 }
+
+function crush4Candies() {
+	//horizontal crush
+	for (let r = 0; r < totalRows; r++) {
+		for (let c = 0; c < totalColumn - 1; c++) {
+			const candy1 = grid[r][c];
+			const candy2 = grid[r][c + 1];
+			const candy3 = grid[r][c + 2];
+			const candy4 = grid[r][c + 3];
+			if (
+				candy1.src == candy2.src &&
+				candy2.src == candy3.src &&
+				candy3.src == candy4.src
+			) {
+				candy1.src = '';
+				candy2.src = '';
+				candy3.src = '';
+				candy4.src = '';
+				score += 160;
+			}
+		}
+	}
+	//verticalcrush
+	for (let r = 0; r < totalRows - 1; r++) {
+		for (let c = 0; c < totalColumn; c++) {
+			if (r === 5) break;
+			const candy1 = grid[r][c];
+			const candy2 = grid[r + 1][c];
+			const candy3 = grid[r + 2][c];
+			const candy4 = grid[r + 3][c];
+			if (
+				candy1.src == candy2.src &&
+				candy2.src == candy3.src &&
+				candy3.src == candy4.src
+			) {
+				//if candies get crushed .src = blank
+				candy1.src = '';
+				candy2.src = '';
+				candy3.src = '';
+				candy4.src = '';
+				score += 160;
+			}
+		}
+	}
+}
 function gameOver() {
 	if (moves === 0) {
 		modal.style.display = 'block';
