@@ -24,6 +24,7 @@ window.addEventListener('load', function () {
 		highScoreEl.innerHTML = `High-score: ${highScore}`;
 	} else {
 		highScoreEl.innerHTML = `High-score: ${HSMem}`;
+		highScore = HSMem;
 	}
 	gameInit();
 	window.setInterval(function () {
@@ -260,9 +261,9 @@ function gameOver() {
 		modal.style.display = 'block';
 		if (score > highScore) {
 			highScore = score;
-			console.log(highScore);
+			localStorage.setItem('highscore', highScore);
 		}
-		localStorage.setItem('highscore', highScore);
+
 		buttonOk.addEventListener('click', function () {
 			location.reload();
 		});
