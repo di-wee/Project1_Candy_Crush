@@ -8,12 +8,15 @@ const scoreP = document.querySelector('.score');
 let moves = 5;
 const moveP = document.querySelector('.move');
 let highScore = 0;
+const highScoreEl = document.querySelector('.HS');
 let totalRows = 5;
 let totalColumn = 5;
 let grid = [];
 
 //on load, game grid will be generated and existing rows of candies will be crushed and cascaded and repopulated
 window.addEventListener('load', function () {
+	const HSMem = localStorage.getItem('highscore');
+	highScoreEl.innerHTML = `High-score: ${HSMem}`;
 	gameInit();
 	window.setInterval(function () {
 		crushCandies();
@@ -241,8 +244,15 @@ function repopulateCandies() {
 function gameOver() {
 	if (moves === 0) {
 		modal.style.display = 'block';
+		if (score > highScore) {
+			highScore = score;
+			console.log(highScore);
+		}
+		localStorage.setItem('highscore', highScore);
+		buttonOk.addEventListener('click', function () {
+			location.reload();
+		});
 	}
 }
-
 const modal = document.querySelector('.modal');
-const span = document.querySelector('.close');
+const buttonOk = document.querySelector('button');
