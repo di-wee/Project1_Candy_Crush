@@ -49,6 +49,7 @@ refresh.addEventListener('click', function () {
 function gameInit() {
 	genGrid();
 	eventListener();
+	score = 0;
 }
 
 function genGrid() {
@@ -167,7 +168,11 @@ function isValid() {
 			const candy1 = grid[r][c];
 			const candy2 = grid[r][c + 1];
 			const candy3 = grid[r][c + 2];
-			if (candy1.src == candy2.src && candy2.src == candy3.src) {
+			if (
+				candy1.src == candy2.src &&
+				candy2.src == candy3.src &&
+				candy1.src.includes('.png')
+			) {
 				return true;
 			}
 		}
@@ -177,7 +182,11 @@ function isValid() {
 			const candy1 = grid[r][c];
 			const candy2 = grid[r + 1][c];
 			const candy3 = grid[r + 2][c];
-			if (candy1.src == candy2.src && candy2.src == candy3.src) {
+			if (
+				candy1.src == candy2.src &&
+				candy2.src == candy3.src &&
+				candy1.src.includes('.png')
+			) {
 				return true;
 			}
 		}
@@ -205,7 +214,11 @@ function crush3Candies() {
 			const candy1 = grid[r][c];
 			const candy2 = grid[r][c + 1];
 			const candy3 = grid[r][c + 2];
-			if (candy1.src == candy2.src && candy2.src == candy3.src) {
+			if (
+				candy1.src == candy2.src &&
+				candy2.src == candy3.src &&
+				candy1.src.includes('.png')
+			) {
 				candy1.src = '';
 				candy2.src = '';
 				candy3.src = '';
@@ -221,7 +234,11 @@ function crush3Candies() {
 			const candy1 = grid[r][c];
 			const candy2 = grid[r + 1][c];
 			const candy3 = grid[r + 2][c];
-			if (candy1.src == candy2.src && candy2.src == candy3.src) {
+			if (
+				candy1.src == candy2.src &&
+				candy2.src == candy3.src &&
+				candy1.src.includes('.png')
+			) {
 				//if candies get crushed .src = blank
 				candy1.src = '';
 				candy2.src = '';
@@ -272,7 +289,8 @@ function crush4Candies() {
 			if (
 				candy1.src == candy2.src &&
 				candy2.src == candy3.src &&
-				candy3.src == candy4.src
+				candy3.src == candy4.src &&
+				candy1.src.includes('.png')
 			) {
 				candy1.src = '';
 				candy2.src = '';
@@ -293,7 +311,8 @@ function crush4Candies() {
 			if (
 				candy1.src == candy2.src &&
 				candy2.src == candy3.src &&
-				candy3.src == candy4.src
+				candy3.src == candy4.src &&
+				candy1.src.includes('.png')
 			) {
 				candy1.src = '';
 				candy2.src = '';
