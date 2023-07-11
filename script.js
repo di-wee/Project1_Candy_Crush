@@ -181,6 +181,7 @@ function isValid() {
 
 //crush candies mechanic
 function crushCandies() {
+	crush4Candies();
 	crush3Candies();
 	cascadeCandies();
 	repopulateCandies();
@@ -188,7 +189,6 @@ function crushCandies() {
 	moveP.innerHTML = `Moves left: ${moves}`;
 	gameOver();
 
-	// crush4Candies();
 	// crush5Candies();
 }
 
@@ -204,7 +204,6 @@ function crush3Candies() {
 				candy2.src = '';
 				candy3.src = '';
 				score += 100;
-				console.log(score);
 			}
 		}
 	}
@@ -222,7 +221,6 @@ function crush3Candies() {
 				candy2.src = '';
 				candy3.src = '';
 				score += 100;
-				console.log(score);
 			}
 		}
 	}
@@ -260,7 +258,7 @@ function repopulateCandies() {
 function crush4Candies() {
 	//horizontal crush
 	for (let r = 0; r < totalRows; r++) {
-		for (let c = 0; c < totalColumn - 1; c++) {
+		for (let c = 0; c < totalColumn - 3; c++) {
 			const candy1 = grid[r][c];
 			const candy2 = grid[r][c + 1];
 			const candy3 = grid[r][c + 2];
@@ -279,7 +277,7 @@ function crush4Candies() {
 		}
 	}
 	//verticalcrush
-	for (let r = 0; r < totalRows - 1; r++) {
+	for (let r = 0; r < totalRows - 3; r++) {
 		for (let c = 0; c < totalColumn; c++) {
 			if (r === 5) break;
 			const candy1 = grid[r][c];
@@ -291,7 +289,6 @@ function crush4Candies() {
 				candy2.src == candy3.src &&
 				candy3.src == candy4.src
 			) {
-				//if candies get crushed .src = blank
 				candy1.src = '';
 				candy2.src = '';
 				candy3.src = '';
