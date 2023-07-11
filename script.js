@@ -298,6 +298,7 @@ function crush4Candies() {
 		}
 	}
 }
+
 function gameOver() {
 	if (moves === 0) {
 		modal.style.display = 'block';
