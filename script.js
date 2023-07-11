@@ -16,7 +16,6 @@ const refresh = document.querySelector('.refresh');
 const modal = document.querySelector('.modal');
 const buttonOk = document.querySelector('#playagain');
 const instructionModal = document.querySelector('.instruction-modal');
-const closeBut = document.querySelector('.close');
 
 //on load, game grid will be generated and existing rows of candies will be crushed and cascaded and repopulated
 window.addEventListener('load', function () {
@@ -25,8 +24,10 @@ window.addEventListener('load', function () {
 	if (HSMem === null) {
 		highScoreEl.innerHTML = `High-score: ${highScore}`;
 		instructionModal.style.display = 'block';
-		closeBut.addEventListener('click', function () {
-			instructionModal.style.display = 'none';
+		window.addEventListener('click', function (e) {
+			if (e.target == instructionModal) {
+				instructionModal.style.display = 'none';
+			}
 		});
 	} else {
 		highScoreEl.innerHTML = `High-score: ${HSMem}`;
@@ -324,9 +325,11 @@ function crush4Candies() {
 	}
 }
 
+//game over modal pop up
 function gameOver() {
 	if (moves === 0) {
 		modal.style.display = 'block';
+		//storing high score into memory
 		if (score > highScore) {
 			highScore = score;
 			localStorage.setItem('highscore', highScore);
