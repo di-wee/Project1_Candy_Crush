@@ -18,8 +18,13 @@ const buttonOk = document.querySelector('#playagain');
 
 //on load, game grid will be generated and existing rows of candies will be crushed and cascaded and repopulated
 window.addEventListener('load', function () {
+	//retrieving previous high score from storage
 	const HSMem = localStorage.getItem('highscore');
-	highScoreEl.innerHTML = `High-score: ${HSMem}`;
+	if (HSMem === null) {
+		highScoreEl.innerHTML = `High-score: ${highScore}`;
+	} else {
+		highScoreEl.innerHTML = `High-score: ${HSMem}`;
+	}
 	gameInit();
 	window.setInterval(function () {
 		crushCandies();
