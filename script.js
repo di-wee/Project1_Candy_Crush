@@ -5,13 +5,14 @@ let pickedCandy;
 let swoppedCandy;
 let score = 0;
 const scoreP = document.querySelector('.score');
-let moves = 0;
+let moves = 5;
 const moveP = document.querySelector('.move');
 let highScore = 0;
 let totalRows = 5;
 let totalColumn = 5;
 let grid = [];
 
+//on load, game grid will be generated and existing rows of candies will be crushed and cascaded and repopulated
 window.addEventListener('load', function () {
 	gameInit();
 	window.setInterval(function () {
@@ -20,6 +21,7 @@ window.addEventListener('load', function () {
 	}, 200);
 });
 
+//to initialise game by generating game grid and implementing event listeners
 function gameInit() {
 	genGrid();
 	eventListener();
@@ -31,11 +33,13 @@ function genGrid() {
 		for (let j = 1; j < totalColumn + 1; j++) {
 			const div = document.createElement('div');
 			div.className = 'candies';
+			//generating divs via grid in css using for loop above
 			div.setAttribute('style', `grid-area:${i}/${j}/${i}/${j}`);
 			const index = Math.floor(Math.random() * candies.length);
 			const chosenCandy = candies[index];
 			const imgEl = document.createElement('img');
 			imgEl.src = `/candies/${chosenCandy}.png`;
+			//class name  given for easy access of candies img later
 			imgEl.className = `${i}-${j}`;
 			div.appendChild(imgEl);
 			container.appendChild(div);
@@ -43,7 +47,8 @@ function genGrid() {
 		}
 		grid.push(rows);
 	}
-	console.log(grid); //candies element now pushed to into an array to be accessed directly
+	//candies element now pushed to into an array to be accessed directly
+	console.log(grid);
 }
 
 //event listeners
@@ -75,14 +80,16 @@ function eventListener() {
 	function dragDrop(event) {
 		swoppedCandy = event.target;
 	}
-
+	//functions to be implemented after candy is dragged:
 	function dragEnd() {
+		//converting candies class into array for manipulation later
 		const pickedArr = pickedCandy.className.split('-'); //return ['index', '1', '1']
 		const pickedRow = Number(pickedArr[0]); // convert string into number
 		const pickedColumn = Number(pickedArr[1]);
 		const swopArr = swoppedCandy.className.split('-');
 		const swoppedRow = Number(swopArr[0]);
 		const swoppedColumn = Number(swopArr[1]);
+		moves -= 1;
 		if (
 			!pickedCandy.src.includes('.png') &&
 			!swoppedCandy.src.includes('.png')
@@ -97,23 +104,32 @@ function eventListener() {
 			swoppedCandy.src = pickedImg;
 		}
 
-		let swopRight =
-			pickedRow === swoppedRow && swoppedColumn === pickedColumn + 1; //if picked is [1/2] swopped is [1/3]
-		let swopLeft =
-			pickedRow === swoppedRow && swoppedColumn === pickedColumn - 1; //if picked is [1/2] swop is [1/1]
-		let swopTop =
-			swoppedRow === pickedRow - 1 && swoppedColumn === pickedColumn; //if picked is [2/1], swop is  [1/1]
-		let swopBottom =
-			swoppedRow === pickedRow + 1 && swoppedColumn === pickedColumn; //if picked is [2/1], swop is [3/1]
+		//to be able to swop candies right => pickedCandy has to be [r/c] and swoppedCandy has to be  is [r/ c+1]
+		const swopRight =
+			pickedRow === swoppedRow && swoppedColumn === pickedColumn + 1;
+
+		//to be able to swop candies right => pickedCandy has to be [r/c] and swoppedCandy has to be  is [r/ c-01]
+		const swopLeft =
+			pickedRow === swoppedRow && swoppedColumn === pickedColumn - 1;
+
+		//to be able to swop candies top => swoppedCandy has to be [r/c] and pickedCandy has to be  is [r-1/c]
+		const swopTop =
+			swoppedRow === pickedRow - 1 && swoppedColumn === pickedColumn;
+
+		//to be able to swop candies bottom => swoppedCandy has to be [r/c] and pickedCandy has to be  is [r+1/c]
+		const swopBottom =
+			swoppedRow === pickedRow + 1 && swoppedColumn === pickedColumn;
 
 		const checkAdjacent = swopRight || swopLeft || swopTop || swopBottom;
 
+		//checking if  candies are adjacent to swop
 		if (checkAdjacent) {
 			swopCandies();
 		}
 
 		let checkValid = isValid();
 
+		//checking if moves are valid to swop
 		if (!checkValid) {
 			swopCandies();
 		}
@@ -151,6 +167,7 @@ function crushCandies() {
 	cascadeCandies();
 	repopulateCandies();
 	scoreP.innerHTML = `Score: ${score}`;
+	moveP.innerHTML = `Moves left: ${moves}`;
 
 	// crush4Candies();
 	// crush5Candies();
@@ -211,14 +228,16 @@ function cascadeCandies() {
 function repopulateCandies() {
 	for (let c = 0; c < totalColumn; c++) {
 		for (let r = totalRows - 1; r >= 0; r--) {
-			for (let j = totalRows - 1; j >= 0; j--) {
-				const candy = grid[r][c];
-				if (!candy.src.includes('.png')) {
-					const index = Math.floor(Math.random() * candies.length);
-					const chosenCandy = candies[index];
-					candy.src = `/candies/${chosenCandy}.png`;
-				}
+			const candy = grid[r][c];
+			if (!candy.src.includes('.png')) {
+				const index = Math.floor(Math.random() * candies.length);
+				const chosenCandy = candies[index];
+				candy.src = `/candies/${chosenCandy}.png`;
 			}
 		}
+	}
+}
+function gameOver() {
+	if (moves === 0) {
 	}
 }
