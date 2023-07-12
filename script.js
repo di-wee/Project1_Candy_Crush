@@ -23,6 +23,8 @@ window.addEventListener('load', function () {
 	const HSMem = localStorage.getItem('highscore');
 	if (HSMem === null) {
 		highScoreEl.innerHTML = `High-score: ${highScore}`;
+		//instruction modal will only appear once when the game is first loaded
+		//subsequent refresh will not initiate the instruction modal
 		instructionModal.style.display = 'block';
 		window.addEventListener('click', function (e) {
 			if (e.target == instructionModal) {
@@ -40,6 +42,7 @@ window.addEventListener('load', function () {
 	}, 200);
 });
 
+//reset button for high-score
 refresh.addEventListener('click', function () {
 	localStorage.clear();
 	highScore = 0;
@@ -159,6 +162,9 @@ function eventListener() {
 		if (!checkValid) {
 			swopCandies();
 		}
+		if (!hasValidMovesLeft()) {
+			gameOver();
+		}
 	}
 }
 
@@ -204,8 +210,6 @@ function crushCandies() {
 	scoreP.innerHTML = `Score: ${score}`;
 	moveP.innerHTML = `Moves left: ${moves}`;
 	gameOver();
-
-	// crush5Candies();
 }
 
 function crush3Candies() {
@@ -325,6 +329,87 @@ function crush4Candies() {
 	}
 }
 
+function checkValid2Swap(candy1, candy2) {
+	swopping2Candies(candy1, candy2);
+	const isValid = checkCrushPossible();
+	swopping2Candies(candy1, candy2); //swopping back candies to undo previous swop
+	return isValid;
+}
+
+function crushableCandy(candy) {
+	const r = Number(candy.className.split('-')[0]); // getting first digit of coordinate [0, 0]
+	const c = Number(candy.className.split('-')[1]);
+	//prevent undefined 0 for c
+	if (c < totalColumn - 2) {
+		//candies are in a row
+		const candy1 = grid[r][c + 1];
+		const candy2 = grid[r][c + 2];
+		if (candy.src == candy1.src && candy1.src == candy2.src) {
+			return true; //row candies crushable
+		}
+
+		//prevent undefined 0 for r
+		if (r < totalRows - 2) {
+			//candies are in a column
+			const candy1 = grid[r + 1][c];
+			const candy2 = grid[r + 2][c];
+			if (candy.src == candy1.src && candy1.src == candy2.src) {
+				return true; //column candies crushable
+			}
+		}
+	}
+	return false;
+}
+
+function checkCrushPossible() {
+	//reiterating thru all the candies
+	for (let r = 0; r < totalRows; r++) {
+		for (let c = 0; c < totalColumn; c++) {
+			const candy1 = grid[r][c];
+			//checking if candies are crushable
+			if (crushableCandy(candy1)) {
+				return true; //candy is able to be crushed
+			}
+		}
+	}
+	return false;
+}
+
+function checkValid2Swap(candy1, candy2) {
+	swopping2Candies(candy1, candy2);
+	const isValid = checkCrushPossible();
+	swopping2Candies(candy1, candy2); //swopping back candies to undo previous swop
+	return isValid;
+}
+function swopping2Candies(candy1, candy2) {
+	const pickedC = candy1.src;
+	const swopC = candy2.src;
+	candy1.src = swopC;
+	candy2.src = pickedC;
+}
+
+function hasValidMovesLeft() {
+	for (let r = 0; r < totalRows; r++) {
+		for (let c = 0; c < totalColumn; c++) {
+			const candy = grid[r][c];
+			//check horizontal
+			if (c < totalColumn - 1) {
+				const rightCandy = grid[r][c + 1];
+				if (checkValid2Swap(candy, rightCandy)) {
+					return true;
+				}
+			}
+
+			if (r < totalRows - 1) {
+				const bottomCandy = grid[r + 1][c];
+				if (checkValid2Swap(candy, bottomCandy)) {
+					return true;
+				}
+			}
+		}
+	}
+	return false;
+}
 //game over modal pop up
 function gameOver() {
 	if (moves === 0) {
