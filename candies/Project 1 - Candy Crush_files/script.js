@@ -5,7 +5,7 @@ let pickedCandy;
 let swoppedCandy;
 let score = 0;
 const scoreP = document.querySelector('.score');
-let moves = 5;
+let moves = 10;
 const moveP = document.querySelector('.move');
 let highScore = 0;
 const highScoreEl = document.querySelector('.HS');
@@ -376,10 +376,10 @@ function swopping2Candies(candy1, candy2) {
 function crushableCandy(candy1, candy2) {
 	const r = Number(candy1.className.split('-')[0]); // getting first digit of coordinate [0, 0]
 	const c = Number(candy1.className.split('-')[1]);
-	if (c < totalColumn + 1) {
+	//prevent undefined 0 for c
+	if (c < totalColumn) {
 		//candies are in a row
 		const candy3 = grid[r][c + 2];
-		console.log(candy3);
 		if (
 			candy1.src == candy2.src &&
 			candy2.src == candy3.src &&
@@ -387,7 +387,9 @@ function crushableCandy(candy1, candy2) {
 		) {
 			return true; //row candies crushable
 		}
-		if (r < totalRows + 1) {
+
+		//prevent undefined 0 for r
+		if (r < totalRows) {
 			//candies are in a column
 			const candy3 = grid[r + 2][c];
 			if (
