@@ -17,9 +17,8 @@ const modal = document.querySelector('.modal');
 const buttonOk = document.querySelector('#playagain');
 const instructionModal = document.querySelector('.instruction-modal');
 
-//on load, game grid will be generated and existing rows of candies will be crushed and cascaded and repopulated
 window.addEventListener('load', function () {
-	//retrieving previous high score from storage
+	//retrieving previous high score from storage on load
 	const HSMem = localStorage.getItem('highscore');
 	if (HSMem === null) {
 		highScoreEl.innerHTML = `High-score: ${highScore}`;
@@ -35,6 +34,7 @@ window.addEventListener('load', function () {
 		highScoreEl.innerHTML = `High-score: ${HSMem}`;
 		highScore = HSMem;
 	}
+	//on load, game grid will be generated and existing rows of candies will be crushed and cascaded and repopulated
 	gameInit();
 	window.setInterval(function () {
 		crushCandies();
@@ -62,7 +62,7 @@ function genGrid() {
 		for (let j = 1; j < totalColumn + 1; j++) {
 			const div = document.createElement('div');
 			div.className = 'candies';
-			//generating divs via grid in css using for loop above
+			//generating divs via grid in css using the for loop above
 			div.setAttribute('style', `grid-area:${i}/${j}/${i}/${j}`);
 			const index = Math.floor(Math.random() * candies.length);
 			const chosenCandy = candies[index];
@@ -112,8 +112,8 @@ function eventListener() {
 	//functions to be implemented after candy is dragged:
 	function dragEnd() {
 		//converting candies class into array for manipulation later
-		const pickedArr = pickedCandy.className.split('-'); //return ['index', '1', '1']
-		const pickedRow = parseInt(pickedArr[0]); // convert string into parseInt
+		const pickedArr = pickedCandy.className.split('-'); //return  ['1', '1']
+		const pickedRow = parseInt(pickedArr[0]); // convert string into number
 		const pickedColumn = parseInt(pickedArr[1]);
 		const swopArr = swoppedCandy.className.split('-');
 		const swoppedRow = parseInt(swopArr[0]);
@@ -154,14 +154,11 @@ function eventListener() {
 		const checkAdjacent = swopRight || swopLeft || swopTop || swopBottom;
 
 		//to only allow swop if candies are adjacent and moves are valid
-
 		if (checkAdjacent && isValid()) {
 			return;
 		} else {
 			swopCandies();
 		}
-
-		console.log(hasValidMovesLeft());
 	}
 }
 
