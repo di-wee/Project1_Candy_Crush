@@ -16,6 +16,8 @@ const refresh = document.querySelector('.refresh');
 const modal = document.querySelector('.modal');
 const buttonOk = document.querySelector('#playagain');
 const instructionModal = document.querySelector('.instruction-modal');
+const crushSound = new Audio('sound_effects/crush.mp3');
+crushSound.setAttribute('muted', 'true');
 
 window.addEventListener('load', function () {
 	//retrieving previous high score from storage on load
@@ -215,6 +217,7 @@ function crush3Candies() {
 				candy1.src = '';
 				candy2.src = '';
 				candy3.src = '';
+				crushSound.play();
 				score += 100;
 			}
 		}
@@ -236,6 +239,7 @@ function crush3Candies() {
 				candy1.src = '';
 				candy2.src = '';
 				candy3.src = '';
+				crushSound.play();
 				score += 100;
 			}
 		}
@@ -289,6 +293,7 @@ function crush4Candies() {
 				candy2.src = '';
 				candy3.src = '';
 				candy4.src = '';
+				crushSound.play();
 				score += 160;
 			}
 		}
@@ -311,6 +316,7 @@ function crush4Candies() {
 				candy2.src = '';
 				candy3.src = '';
 				candy4.src = '';
+				crushSound.play();
 				score += 160;
 			}
 		}
