@@ -160,10 +160,6 @@ function eventListener() {
 		} else {
 			swopCandies();
 		}
-
-		// if (!isValid()) {
-		// 	swopCandies();
-		// }
 	}
 }
 
@@ -176,7 +172,6 @@ function isValid() {
 			const candy3 = grid[r][c + 2];
 
 			if (candy1.src == candy2.src && candy2.src == candy3.src) {
-				console.log('isvalid() = true');
 				return true;
 			} else {
 				console.log(candy1.src);
@@ -192,7 +187,6 @@ function isValid() {
 			const candy3 = grid[r + 2][c];
 
 			if (candy1.src == candy2.src && candy2.src == candy3.src) {
-				console.log('isvalid() = true');
 				return true;
 			} else {
 				console.log(candy1.src);
