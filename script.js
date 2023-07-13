@@ -160,6 +160,8 @@ function eventListener() {
 		} else {
 			swopCandies();
 		}
+
+		console.log(hasValidMovesLeft());
 	}
 }
 
@@ -173,10 +175,6 @@ function isValid() {
 
 			if (candy1.src == candy2.src && candy2.src == candy3.src) {
 				return true;
-			} else {
-				console.log(candy1.src);
-				console.log(candy2.src);
-				console.log(candy3.src);
 			}
 		}
 	}
@@ -188,10 +186,6 @@ function isValid() {
 
 			if (candy1.src == candy2.src && candy2.src == candy3.src) {
 				return true;
-			} else {
-				console.log(candy1.src);
-				console.log(candy2.src);
-				console.log(candy3.src);
 			}
 		}
 	}
@@ -324,69 +318,6 @@ function crush4Candies() {
 			}
 		}
 	}
-}
-function hasValidMovesLeft() {
-	for (let r = 0; r < totalRows; r++) {
-		for (let c = 0; c < totalColumn; c++) {
-			const candy = grid[r][c];
-			//check horizontal
-			if (c < totalColumn - 1) {
-				const rightCandy = grid[r][c + 1];
-				if (checkValid2Swap(candy, rightCandy)) {
-					return true;
-				}
-			}
-
-			if (r < totalRows - 1) {
-				const bottomCandy = grid[r + 1][c];
-				if (checkValid2Swap(candy, bottomCandy)) {
-					return true;
-				}
-			}
-		}
-	}
-	return false;
-}
-function checkValid2Swap(candy1, candy2) {
-	swopping2Candies(candy1, candy2);
-	const isValid = crushableCandy(candy1, candy2);
-	swopping2Candies(candy1, candy2); //swopping back candies to undo previous swop
-	return isValid;
-}
-function swopping2Candies(candy1, candy2) {
-	const pickedC = candy1.src;
-	const swopC = candy2.src;
-	candy1.src = swopC;
-	candy2.src = pickedC;
-}
-
-function crushableCandy(candy1, candy2) {
-	const r = Number(candy1.className.split('-')[0]); // getting first digit of coordinate [0, 0]
-	const c = Number(candy1.className.split('-')[1]);
-	if (c < totalColumn + 1) {
-		//candies are in a row
-		const candy3 = grid[r][c + 2];
-		console.log(candy3);
-		if (
-			candy1.src == candy2.src &&
-			candy2.src == candy3.src &&
-			candy3.src.includes('.png')
-		) {
-			return true; //row candies crushable
-		}
-		if (r < totalRows + 1) {
-			//candies are in a column
-			const candy3 = grid[r + 2][c];
-			if (
-				candy1.src == candy2.src &&
-				candy2.src == candy3.src &&
-				candy3.src.includes('.png')
-			) {
-				return true; //column candies crushable
-			}
-		}
-	}
-	return false;
 }
 
 //game over modal pop up
