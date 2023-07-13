@@ -18,9 +18,11 @@ CSS
 
 # Getting Started
 
-[Click to play Candy Crush!](your deployment url here)
+[Click to play Candy Crush!]
+https://project-1-candy-crush.netlify.app
 
 # Next Steps
 
-Implement algorithm to check for any more possible valid moves and to initiate game over if there isn't any moves left.
-Special power up candies that will destroy all candies of the same colour when matched.
+-Implement algorithm to check for any more possible valid moves and to initiate game over if there isn't any moves left.
+
+-Special power up candies that will destroy all candies of the same colour when matched.
