@@ -121,14 +121,6 @@ function eventListener() {
 		const swoppedRow = parseInt(swopArr[0]);
 		const swoppedColumn = parseInt(swopArr[1]);
 		moves -= 1;
-		if (
-			!pickedCandy.src.includes('.png') ||
-			!swoppedCandy.src.includes('.png')
-		) {
-			return;
-		} else {
-			swopCandies();
-		}
 
 		function swopCandies() {
 			let pickedImg = pickedCandy.src;
@@ -141,7 +133,7 @@ function eventListener() {
 		const swopRight =
 			pickedRow === swoppedRow && swoppedColumn === pickedColumn + 1;
 
-		//to be able to swop candies right => pickedCandy has to be [r/c] and swoppedCandy has to be  is [r/ c-01]
+		//to be able to swop candies right => pickedCandy has to be [r/c] and swoppedCandy has to be  is [r/ c-1]
 		const swopLeft =
 			pickedRow === swoppedRow && swoppedColumn === pickedColumn - 1;
 
@@ -155,7 +147,16 @@ function eventListener() {
 
 		const checkAdjacent = swopRight || swopLeft || swopTop || swopBottom;
 
-		//to only allow swop if candies are adjacent and moves are valid
+		//only allow swap if both are valid candies
+		if (
+			!pickedCandy.src.includes('.png') ||
+			!swoppedCandy.src.includes('.png')
+		) {
+			return;
+		} else {
+			swopCandies();
+		}
+		//ensures that the candies can only be swapped if they are adjacent to each other and the swap doesn't immediately create a match
 		if (checkAdjacent && isValid()) {
 			return;
 		} else {
@@ -164,19 +165,22 @@ function eventListener() {
 	}
 }
 
-//check for valid move
+//check if its a valid move
 function isValid() {
 	for (let r = 0; r < totalRows; r++) {
+		//totalColumn - 2 to prevent error
 		for (let c = 0; c < totalColumn - 2; c++) {
-			const candy1 = grid[r][c];
+			const candy1 = grid[r][c]; //assessing img file directly from array
 			const candy2 = grid[r][c + 1];
 			const candy3 = grid[r][c + 2];
 
+			//if candies all share the same .src = same candy colour
 			if (candy1.src == candy2.src && candy2.src == candy3.src) {
-				return true;
+				return true; //valid moves cause candies to crush
 			}
 		}
 	}
+	//totalRows -2 to prevent error
 	for (let r = 0; r < totalRows - 2; r++) {
 		for (let c = 0; c < totalColumn; c++) {
 			const candy1 = grid[r][c];
@@ -184,11 +188,11 @@ function isValid() {
 			const candy3 = grid[r + 2][c];
 
 			if (candy1.src == candy2.src && candy2.src == candy3.src) {
-				return true;
+				return true; //valid moves cause candies to crush
 			}
 		}
 	}
-	return false;
+	return false; //invalid move returns false
 }
 
 //crush candies mechanic
@@ -214,6 +218,7 @@ function crush3Candies() {
 				candy2.src == candy3.src &&
 				candy1.src.includes('.png')
 			) {
+				//if candies get crushed .src = blank
 				candy1.src = '';
 				candy2.src = '';
 				candy3.src = '';
@@ -235,7 +240,6 @@ function crush3Candies() {
 				candy2.src == candy3.src &&
 				candy1.src.includes('.png')
 			) {
-				//if candies get crushed .src = blank
 				candy1.src = '';
 				candy2.src = '';
 				candy3.src = '';
@@ -245,7 +249,7 @@ function crush3Candies() {
 		}
 	}
 }
-
+//function to allow candy to cascade down after crushing
 function cascadeCandies() {
 	for (let c = 0; c < totalColumn; c++) {
 		for (let r = totalRows - 1; r >= 0; r--) {
@@ -253,6 +257,7 @@ function cascadeCandies() {
 				if (j === 0) break;
 				const bottomC = grid[j][c];
 				const topC = grid[j - 1][c];
+				//if bottom candy is blank and top candy is a candy, top candy to replace bottom candy.
 				if (!bottomC.src.includes('.png') && topC.src.includes('.png')) {
 					bottomC.src = topC.src;
 					topC.src = '';
@@ -262,12 +267,13 @@ function cascadeCandies() {
 	}
 }
 
+//to repopulate blank candies after candies have been crushed and cascaded
 function repopulateCandies() {
 	for (let c = 0; c < totalColumn; c++) {
 		for (let r = totalRows - 1; r >= 0; r--) {
 			const candy = grid[r][c];
 			if (!candy.src.includes('.png')) {
-				const index = Math.floor(Math.random() * candies.length);
+				const index = Math.floor(Math.random() * candies.length); //random candy generator
 				const chosenCandy = candies[index];
 				candy.src = `/candies/${chosenCandy}.png`;
 			}
