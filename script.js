@@ -113,17 +113,19 @@ function eventListener() {
 	function dragEnd() {
 		//converting candies class into array for manipulation later
 		const pickedArr = pickedCandy.className.split('-'); //return ['index', '1', '1']
-		const pickedRow = Number(pickedArr[0]); // convert string into number
-		const pickedColumn = Number(pickedArr[1]);
+		const pickedRow = parseInt(pickedArr[0]); // convert string into parseInt
+		const pickedColumn = parseInt(pickedArr[1]);
 		const swopArr = swoppedCandy.className.split('-');
-		const swoppedRow = Number(swopArr[0]);
-		const swoppedColumn = Number(swopArr[1]);
+		const swoppedRow = parseInt(swopArr[0]);
+		const swoppedColumn = parseInt(swopArr[1]);
 		moves -= 1;
 		if (
-			!pickedCandy.src.includes('.png') &&
+			!pickedCandy.src.includes('.png') ||
 			!swoppedCandy.src.includes('.png')
 		) {
 			return;
+		} else {
+			swopCandies();
 		}
 
 		function swopCandies() {
@@ -151,60 +153,51 @@ function eventListener() {
 
 		const checkAdjacent = swopRight || swopLeft || swopTop || swopBottom;
 
-		let checkValid = isValid();
-
 		//to only allow swop if candies are adjacent and moves are valid
-		if (!checkValid && checkAdjacent) {
+
+		if (checkAdjacent && isValid()) {
+			return;
+		} else {
 			swopCandies();
 		}
 
-		console.log(hasValidMovesLeft());
+		// if (!isValid()) {
+		// 	swopCandies();
+		// }
 	}
 }
 
 //check for valid move
 function isValid() {
 	for (let r = 0; r < totalRows; r++) {
-		for (let c = 0; c < totalColumn - 3; c++) {
+		for (let c = 0; c < totalColumn - 2; c++) {
 			const candy1 = grid[r][c];
 			const candy2 = grid[r][c + 1];
 			const candy3 = grid[r][c + 2];
-			const candy4 = grid[r][c + 3];
-			if (
-				candy1.src == candy2.src &&
-				candy2.src == candy3.src &&
-				candy1.src.includes('.png')
-			) {
+
+			if (candy1.src == candy2.src && candy2.src == candy3.src) {
+				console.log('isvalid() = true');
 				return true;
-			} else if (
-				candy1.src == candy2.src &&
-				candy2.src == candy3.src &&
-				candy3.src == candy4.src &&
-				candy1.src.includes('.png')
-			) {
-				return true;
+			} else {
+				console.log(candy1.src);
+				console.log(candy2.src);
+				console.log(candy3.src);
 			}
 		}
 	}
-	for (let r = 0; r < totalRows - 3; r++) {
+	for (let r = 0; r < totalRows - 2; r++) {
 		for (let c = 0; c < totalColumn; c++) {
 			const candy1 = grid[r][c];
 			const candy2 = grid[r + 1][c];
 			const candy3 = grid[r + 2][c];
-			const candy4 = grid[r + 3][c];
-			if (
-				candy1.src == candy2.src &&
-				candy2.src == candy3.src &&
-				candy1.src.includes('.png')
-			) {
+
+			if (candy1.src == candy2.src && candy2.src == candy3.src) {
+				console.log('isvalid() = true');
 				return true;
-			} else if (
-				candy1.src == candy2.src &&
-				candy2.src == candy3.src &&
-				candy3.src == candy4.src &&
-				candy1.src.includes('.png')
-			) {
-				return true;
+			} else {
+				console.log(candy1.src);
+				console.log(candy2.src);
+				console.log(candy3.src);
 			}
 		}
 	}
