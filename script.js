@@ -156,7 +156,7 @@ function eventListener() {
 		} else {
 			swopCandies();
 		}
-		//ensures that the candies can only be swapped if they are adjacent to each other and the swap doesn't immediately create a match
+		//ensures that the candies can only be swapped if they are adjacent and its a valid move
 		if (checkAdjacent && isValid()) {
 			return;
 		} else {
@@ -170,7 +170,7 @@ function isValid() {
 	for (let r = 0; r < totalRows; r++) {
 		//totalColumn - 2 to prevent error
 		for (let c = 0; c < totalColumn - 2; c++) {
-			const candy1 = grid[r][c]; //assessing img file directly from array
+			const candy1 = grid[r][c]; //accessing img file directly from array
 			const candy2 = grid[r][c + 1];
 			const candy3 = grid[r][c + 2];
 
