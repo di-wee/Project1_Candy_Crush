@@ -12,22 +12,23 @@ To win, score as much points under the alloted moves.
 
 # Technologies Used
 
-JavaScript
-HTML
-CSS
+- JavaScript
+- HTML
+- CSS
 
 # Getting Started
 
 [Click deployment link to play!]
-https://project-1-candy-crush.netlify.app
+
+- https://project-1-candy-crush.netlify.app
 
 # Next Steps
 
--Implement algorithm to check for any more possible valid moves and to initiate game over if there isn't any moves left.
+- Implement algorithm to check for any more possible valid moves and to initiate game over if there isn't any moves left.
 
--Special power up candies that will destroy all candies of the same colour when matched.
+- Special power up candies that will destroy all candies of the same colour when matched.
 
 # References
 
-https://www.youtube.com/watch?v=8yIKZQMGi0A&t=1481s (Kenny Yip Coding)
-https://www.w3schools.com/
+- https://www.youtube.com/watch?v=8yIKZQMGi0A&t=1481s (Kenny Yip Coding)
+- https://www.w3schools.com/
